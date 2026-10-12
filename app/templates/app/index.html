@@ -1,0 +1,93 @@
+{% extends "app/base1.html" %}
+{% load static %}
+{% block content %}
+
+<section class="home-section section-hero overlay bg-image" style="background-image: url('{% static 'images/hero_1.jpg' %}');" id="home-section">
+  <div class="container">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-md-12">
+        <div class="mb-5 text-center">
+          <h1 class="text-white font-weight-bold">The Easiest Way To Get Your Dream Job</h1>
+          <p class="text-white">Find {{ job_count }} jobs from {{ company_count }} companies</p>
+        </div>
+        <form method="GET" class="search-jobs-form">
+          <div class="row mb-5">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+              <input type="text" name="q" class="form-control form-control-lg" placeholder="Job title...">
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+              <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" title="Select Region">
+                <option>Chennai</option><option>Bangalore</option><option>Hyderabad</option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+              <select class="selectpicker" data-style="btn-white btn-lg" data-width="100%" title="Job Type">
+                <option>Full Time</option><option>Part Time</option>
+              </select>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-4 mb-lg-0">
+              <button type="submit" class="btn btn-primary btn-lg btn-block text-white btn-search"><span class="icon-search icon mr-2"></span>Search Job</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-image overlay-primary fixed overlay" id="next" style="background-image: url('{% static 'images/hero_1.jpg' %}');">
+  <div class="container">
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-7 text-center">
+        <h2 class="section-title mb-2 text-white">JobBoard Site Stats</h2>
+        <p class="lead text-white">Live data from database</p>
+      </div>
+    </div>
+    <div class="row pb-0 block__19738 section-counter">
+      <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0"><div class="d-flex align-items-center justify-content-center mb-2"><strong class="number" data-number="{{ candidate_count }}">{{ candidate_count }}</strong></div><span class="caption">Candidates</span></div>
+      <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0"><div class="d-flex align-items-center justify-content-center mb-2"><strong class="number" data-number="{{ job_count }}">{{ job_count }}</strong></div><span class="caption">Jobs Posted</span></div>
+      <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0"><div class="d-flex align-items-center justify-content-center mb-2"><strong class="number" data-number="{{ job_count }}">{{ job_count }}</strong></div><span class="caption">Jobs Filled</span></div>
+      <div class="col-6 col-md-6 col-lg-3 mb-5 mb-lg-0"><div class="d-flex align-items-center justify-content-center mb-2"><strong class="number" data-number="{{ company_count }}">{{ company_count }}</strong></div><span class="caption">Companies</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="site-section">
+  <div class="container">
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-7 text-center">
+        <h2 class="section-title mb-2">{{ job_count }} Jobs Listed</h2>
+      </div>
+    </div>
+    <ul class="job-listings mb-5">
+      {% for job in jobs %}
+      <li class="job-listing d-block d-sm-flex pb-3 pb-sm-0 align-items-center">
+        <a href="{% url 'job_detail' job.id %}"></a>
+        <div class="job-listing-logo">
+          {% if job.company.logo_pic %}
+            <img src="{{ job.company.logo_pic.url }}" alt="{{ job.company.company_name }}" class="img-fluid" style="width:70px; height:70px; object-fit:cover;">
+          {% else %}
+            <img src="{% static 'images/job_logo_1.jpg' %}" alt="logo" class="img-fluid">
+          {% endif %}
+        </div>
+        <div class="job-listing-about d-sm-flex custom-width w-100 justify-content-between mx-4">
+          <div class="job-listing-position custom-width w-50 mb-3 mb-sm-0">
+            <h2>{{ job.title }}</h2>
+            <strong>{{ job.company.company_name }}</strong>
+          </div>
+          <div class="job-listing-location mb-3 mb-sm-0 custom-width w-25">
+            <span class="icon-room"></span> {{ job.location }}
+          </div>
+          <div class="job-listing-meta">
+            <span class="badge badge-success">{{ job.job_type }}</span>
+          </div>
+        </div>
+      </li>
+      {% empty %}
+      <li class="text-center p-5"><h4>No jobs found</h4><p>Company please <a href="{% url 'company_post_job' %}">post a job</a></p></li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% endblock %}

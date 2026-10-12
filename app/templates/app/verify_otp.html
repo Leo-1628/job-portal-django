@@ -1,0 +1,22 @@
+{% extends 'app/base1.html' %}
+{% block content %}
+<div class="container" style="margin-top:100px; max-width:500px;">
+  <h3>Verify Your Email</h3>
+  <p>OTP sent to <b>{{ email }}</b> - valid for 5 minutes</p>
+  
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-info">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-group">
+      <input type="text" name="otp" class="form-control" maxlength="6" placeholder="Enter 6-digit OTP" required>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block mt-3">Verify</button>
+  </form>
+  <p class="mt-3">Didn't get OTP? <a href="{% url 'resend_otp' %}">Resend OTP</a></p>
+</div>
+{% endblock %}

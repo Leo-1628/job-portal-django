@@ -1,0 +1,24 @@
+{% extends "app/base1.html" %}
+{% block content %}
+<div class="container" style="margin-top:150px; margin-bottom:50px;">
+  <h3>My Profile - {{ master.role }}</h3>
+  <p><b>Email:</b> {{ master.email }}</p>
+  {% if master.role == 'candidate' %}
+    <p><b>Name:</b> {{ profile.firstname }} {{ profile.lastname }}</p>
+    <p><b>Contact:</b> {{ profile.contact }}</p>
+    <p><b>Location:</b> {{ profile.city }}, {{ profile.state }}</p>
+    {% if profile.profile_pic %}
+    <img src="{{ profile.profile_pic.url }}" width="150" style="border-radius:10px;">
+    {% endif %}
+  {% else %}
+    <p><b>Company:</b> {{ profile.company_name }}</p>
+    <p><b>Contact:</b> {{ profile.contact }}</p>
+    {% if profile.logo_pic %}
+    <img src="{{ profile.logo_pic.url }}" width="150">
+    {% endif %}
+  {% endif %}
+  <br><br>
+  <a href="{% if master.role == 'candidate' %}{% url 'update_candidate' %}{% else %}{% url 'update_company' %}{% endif %}" class="btn btn-primary">Edit Profile</a>
+  <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+</div>
+{% endblock %}

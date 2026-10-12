@@ -1,0 +1,31 @@
+{% extends "app/admin/admin_base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+    <h4>Applicants for {{ job.title }}</h4>
+    <a href="{% url 'company_my_jobs' %}" class="btn btn-secondary btn-sm">← Back</a>
+</div>
+
+<div class="card shadow">
+<div class="card-body">
+<p>Total: {{ applicants|length }} | {{ job.location }} | {{ job.salary }}</p>
+
+<table class="table table-bordered">
+<thead class="table-dark"><tr><th>#</th><th>Name</th><th>Email</th><th>Applied</th><th>Status</th></tr></thead>
+<tbody>
+{% for app in applicants %}
+<tr>
+    <td>{{ forloop.counter }}</td>
+    <td><strong>{{ app.candidate }}</strong></td>
+    <td>{{ app.candidate.master.email }}</td>
+    <td>{{ app.applied_at|date:"d M Y h:i A" }}</td>
+    <td><span class="badge bg-success">Applied</span></td>
+</tr>
+{% empty %}
+<tr><td colspan="5" class="text-center">No Applicants</td></tr>
+{% endfor %}
+</tbody>
+</table>
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "app/base1.html" %}
+{% load static %}
+{% block content %}
+<section class="section-hero overlay inner-page bg-image" style="background-image: url('{% static 'images/hero_1.jpg' %}');" id="home-section">
+  <div class="container"><div class="row"><div class="col-md-7"><h1 class="text-white font-weight-bold">My Applications</h1><div class="custom-breadcrumbs"><a href="{% url 'index' %}">Home</a> <span class="mx-2 slash">/</span> <span class="text-white"><strong>My Jobs</strong></span></div></div></div></div>
+</section>
+
+<section class="site-section">
+  <div class="container">
+    <div class="row mb-5"><div class="col-12"><h2 class="section-title mb-3">Applied Jobs ({{ applications|length }})</h2></div></div>
+    
+    {% if applications %}
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-dark">
+            <tr><th>#</th><th>Job Title</th><th>Company</th><th>Location</th><th>Salary</th><th>Applied On</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            {% for app in applications %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td><a href="{% url 'job_detail' app.job.id %}">{{ app.job.title }}</a></td>
+              <td>{{ app.job.company.company_name }}</td>
+              <td>{{ app.job.location }}</td>
+              <td>{{ app.job.salary }}</td>
+              <td>{{ app.applied_at|date:"d M Y" }}</td>
+              <td><span class="badge badge-success">Applied</span></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% else %}
+    <div class="row"><div class="col-12 text-center py-5">
+      <h4>No applications yet</h4>
+      <p>You haven't applied for any jobs</p>
+      <a href="{% url 'index' %}" class="btn btn-primary">Browse Jobs</a>
+    </div></div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

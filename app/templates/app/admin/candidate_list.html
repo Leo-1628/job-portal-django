@@ -1,0 +1,26 @@
+{% extends "app/admin/admin_base.html" %}
+{% block content %}
+<div class="card shadow">
+<div class="card-header bg-white d-flex justify-content-between"><h6 class="m-0 fw-bold text-primary">All Candidates</h6><span class="badge bg-primary">{{ candidates|length }} Total</span></div>
+<div class="card-body">
+<div class="table-responsive">
+<table class="table table-hover datatable">
+    <thead><tr><th>ID</th><th>Name</th><th>City</th><th>Contact</th><th>Gender</th><th>Email</th><th>Action</th></tr></thead>
+    <tbody>
+    {% for c in candidates %}
+    <tr>
+        <td>{{ c.id }}</td>
+        <td><strong>{{ c.firstname }} {{ c.lastname }}</strong></td>
+        <td><span class="badge bg-light text-dark"><i class="fas fa-map-marker-alt"></i> {{ c.city }}</span></td>
+        <td>{{ c.contact }}</td>
+        <td>{{ c.gender }}</td>
+        <td>{{ c.master.email }}</td>
+        <td><a href="{% url 'admin_delete' c.master.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete?')"><i class="fas fa-trash"></i></a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "app/admin/admin_base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between mb-3">
+    <h4>My Posted Jobs</h4>
+    <a href="{% url 'company_post_job' %}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> Post New Job</a>
+</div>
+<div class="card shadow">
+<div class="card-body">
+<table class="table table-hover datatable">
+    <thead><tr><th>Title</th><th>Location</th><th>Salary</th><th>Type</th><th>Posted</th><th>Applicants</th><th>Action</th></tr></thead>
+    <tbody>
+    {% for j in jobs %}
+    <tr>
+        <td><strong>{{ j.title }}</strong><br><small class="text-muted">{{ j.skills }}</small></td>
+        <td>{{ j.location }}</td>
+        <td>{{ j.salary }}</td>
+        <td><span class="badge bg-info">{{ j.job_type }}</span></td>
+        <td>{{ j.created_at|date:"d M Y" }}</td>
+        <td><span class="badge bg-success">{{ j.application_set.count }} Applied</span></td>
+        <td>
+            <a href="{% url 'company_applicants' j.id %}" class="btn btn-primary btn-sm" title="View Applicants"><i class="fas fa-eye"></i> View</a>
+            <a href="{% url 'company_delete_job' j.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Delete this job?')"><i class="fas fa-trash"></i></a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7" class="text-center">No Jobs Posted Yet</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+{% endblock %}

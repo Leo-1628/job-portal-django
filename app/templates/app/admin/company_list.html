@@ -1,0 +1,28 @@
+{% extends "app/admin/admin_base.html" %}
+{% block content %}
+<div class="card shadow">
+<div class="card-header bg-white d-flex justify-content-between"><h6 class="m-0 fw-bold text-primary">All Companies</h6><span class="badge bg-success">{{ companies|length }} Total</span></div>
+<div class="card-body">
+<div class="table-responsive">
+<table class="table table-hover datatable">
+    <thead><tr><th>ID</th><th>Company</th><th>Owner</th><th>City</th><th>Contact</th><th>Email</th><th>Action</th></tr></thead>
+    <tbody>
+    {% for c in companies %}
+    <tr>
+        <td>{{ c.id }}</td>
+        <td><strong>{{ c.company_name }}</strong></td>
+        <td>{{ c.firstname }} {{ c.lastname }}</td>
+        <td><span class="badge bg-light text-dark">{{ c.city }}</span></td>
+        <td>{{ c.contact }}</td>
+        <td>{{ c.master.email }}</td>
+        <td><a href="{% url 'admin_delete' c.master.id %}" class="btn btn-danger btn-sm" onclick="return confirm('Delete?')"><i class="fas fa-trash"></i></a></td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7" class="text-center text-muted">No Companies Registered Yet - Create company account to test</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+{% endblock %}
